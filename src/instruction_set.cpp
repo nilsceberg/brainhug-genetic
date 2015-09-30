@@ -18,6 +18,20 @@ void instruction_set::base(bh::vm& vm)
 		vm.register_operation(i, [i](bh::vm& vm) { vm.push(i - 'A' + 10); });
 	}
 
+	// combination of stack values
+	vm.register_operation(':', [](bh::vm& vm) {
+			cell b = vm.pop();
+			cell a = vm.pop();
+			vm.push(b | (a << 4));
+		});
+	vm.register_operation(';', [](bh::vm& vm) {
+			cell n = vm.pop();
+			cell result = 0;
+			for (int i=0; i<n; ++i)
+				result = result | (vm.pop() << (i*4));
+			vm.push(result);
+		});
+
 
 	// arithmetic
 	vm.register_operation('+', [](bh::vm& vm) { vm.push(vm.pop() + vm.pop()); });
@@ -96,6 +110,11 @@ void instruction_set::base(bh::vm& vm)
 				vm.push(tmp[tmp.size() - i - 1]);
 			for (int i=0; i<n; ++i)
 				vm.push(tmp[tmp.size() - i - 1]);
+		});
+	vm.register_operation('\'', [](bh::vm& vm) {
+			cell val = vm.pop();
+			vm.push(val);
+			vm.push(val);
 		});
 	vm.register_operation('p', [](bh::vm& vm) { vm.pop(); });
 }
