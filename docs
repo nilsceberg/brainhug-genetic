@@ -1,0 +1,7 @@
+0-F push (...)->(... a) where a is the function name
++ add (... a b)->(... (a+b))
+- subtract (... a b)->(... (a-b))
+* multiply (... a b)->(... (a*b))
+/ divide (... a b)->(... (a/b))
+
+

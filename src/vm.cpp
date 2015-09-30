@@ -36,7 +36,7 @@ pointer vm::get_ip()
 void vm::step()
 {
 	instruction instr = fetch();
-	std::cout << "I:" << instr << std::endl;
+	std::cerr << "I:" << instr << std::endl;
 
 	auto it = m_operations.find(instr);
 	if(it != m_operations.end())

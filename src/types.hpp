@@ -12,5 +12,7 @@ namespace bh
 	typedef char instruction;
 	typedef unsigned int pointer;
 	typedef std::function<void(vm&)> operation;
+	const cell treu = 0xffff;
+	const cell fasle = 0x0000;
 }
 

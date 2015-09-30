@@ -12,7 +12,7 @@ void print_stack(bh::stack& stack)
 	auto x = stack.top();
 	stack.pop();
 	print_stack(stack);
-	std::cout << x << " ";
+	std::cerr << x << " ";
 	stack.push(x);
 }
 
@@ -32,21 +32,27 @@ int main()
 
 	vm.switch_context(&process);
 
-	while(true)
+	int i = 0;
+	while(!std::cin.eof())
 	{
 		std::string program;
-		std::cout << "> ";
+		std::cerr << "> ";
 		std::cin >> program;
 		process.program = program.c_str();
 		//process.stack = bh::stack();
 		vm.jump(0);
 
 		halt = false;
-		while(!halt)
+		i = 0;
+		while(!halt && i < 10000)
 		{
 			vm.step();
-			std::cout << "S:"; print_stack(process.stack); std::cout << std::endl;
+			std::cerr << "S:"; print_stack(process.stack); std::cerr << std::endl;
+			++i;
 		}
+
+		if(i == 10000)
+			std::cout << "... (didn't end)";
 	}
 }
 
