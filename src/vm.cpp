@@ -38,8 +38,8 @@ void vm::step()
 	instruction instr = fetch();
 	std::cerr << "I:" << instr << std::endl;
 
-	auto it = m_operations.find(instr);
-	if(it != m_operations.end())
+	auto it = m_instruction_set.find(instr);
+	if(it != m_instruction_set.end())
 	{
 		it->second(*this);
 	}
@@ -62,8 +62,13 @@ cell vm::pop()
 	return c;
 }
 
-void vm::register_operation(instruction instr, operation op)
+void vm::set_instruction_set(instruction_set const& set)
 {
-	m_operations[instr] = op;
+	m_instruction_set = set;
+}
+
+instruction_set const& vm::get_instruction_set() const
+{
+	return m_instruction_set;
 }
 

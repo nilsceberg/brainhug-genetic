@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.hpp"
+#include "instruction_set.hpp"
 
 #include <map>
 
@@ -23,7 +24,8 @@ namespace bh
 
 		void step();
 
-		void register_operation(instruction instr, operation op);
+		void set_instruction_set(instruction_set const& set);
+		instruction_set const& get_instruction_set() const;
 	
 	private:
 		instruction fetch();
@@ -31,7 +33,7 @@ namespace bh
 		pointer m_ip;
 		context* m_context;
 		
-		std::map<instruction, operation> m_operations;
+		instruction_set m_instruction_set;
 	};
 }
 

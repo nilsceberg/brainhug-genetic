@@ -27,8 +27,11 @@ int main(int args, char** argv)
 	bool halt = false;
 
 	bh::vm vm;
-	vm.register_operation(0, [&halt](bh::vm&) { halt = true; });
-	bh::instruction_set::base(vm);
+
+	bh::instruction_set extension;
+	extension[0] = [&halt](bh::vm&) { halt = true; };
+
+	vm.set_instruction_set(bh::instruction_sets::base() | extension);
 
 	vm.switch_context(&process);
 

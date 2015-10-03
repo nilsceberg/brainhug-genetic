@@ -1,10 +1,19 @@
 #pragma once
 
+#include "types.hpp"
+
+#include <map>
+
 namespace bh
 {
 	class vm;
-	namespace instruction_set
+	typedef std::map<instruction, operation> instruction_set;
+	instruction_set operator|(
+			instruction_set const&,
+			instruction_set const&);
+
+	namespace instruction_sets
 	{
-		void base(vm&);
+		instruction_set base();
 	};
 }
