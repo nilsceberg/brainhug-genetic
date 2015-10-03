@@ -21,7 +21,7 @@ int main(int args, char** argv)
 	bh::context process =
 	{
 		bh::stack(), //std::vector<bh::cell>(256)),
-		nullptr
+		bh::program()
 	};
 
 	bool halt = false;
@@ -47,7 +47,8 @@ int main(int args, char** argv)
 		std::string program;
 		std::cerr << "> ";
 		std::cin >> program;
-		process.program = program.c_str();
+		process.program = bh::program(program.begin(), program.end());
+		process.program.push_back(0);
 		//process.stack = bh::stack();
 		vm.jump(0);
 
