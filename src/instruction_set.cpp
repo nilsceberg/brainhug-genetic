@@ -35,9 +35,9 @@ void instruction_set::base(bh::vm& vm)
 
 	// arithmetic
 	vm.register_operation('+', [](bh::vm& vm) { vm.push(vm.pop() + vm.pop()); });
-	vm.register_operation('-', [](bh::vm& vm) { cell b = vm.pop(); vm.push(vm.pop() - b); });
+	vm.register_operation('-', [](bh::vm& vm) { vm.push(vm.pop() - vm.pop()); });
 	vm.register_operation('*', [](bh::vm& vm) { vm.push(vm.pop() * vm.pop()); });
-	vm.register_operation('/', [](bh::vm& vm) { cell b = vm.pop(); vm.push(vm.pop() / b); });
+	vm.register_operation('/', [](bh::vm& vm) { vm.push(vm.pop() / vm.pop()); });
 	vm.register_operation('i', [](bh::vm& vm) { vm.push(vm.pop() + 1); });
 	vm.register_operation('d', [](bh::vm& vm) { vm.push(vm.pop() - 1); });
 
@@ -54,10 +54,13 @@ void instruction_set::base(bh::vm& vm)
 			std::cerr << "jumping to " << to << std::endl;
 			vm.jump(to);
 		});
-	vm.register_operation('r', [](bh::vm& vm) {
+	vm.register_operation('R', [](bh::vm& vm) {
 			cell return_value = vm.pop();
 			vm.jump(vm.pop());
 			vm.push(return_value);
+		});
+	vm.register_operation('r', [](bh::vm& vm) {
+			vm.jump(vm.pop());
 		});
 	vm.register_operation('?', [](bh::vm& vm) { // conditional relative
 			pointer to = vm.pop();
