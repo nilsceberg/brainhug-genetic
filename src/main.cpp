@@ -16,7 +16,7 @@ void print_stack(bh::stack& stack)
 	stack.push(x);
 }
 
-int main()
+int main(int args, char** argv)
 {
 	bh::context process =
 	{
@@ -31,6 +31,12 @@ int main()
 	bh::instruction_set::base(vm);
 
 	vm.switch_context(&process);
+
+	// push all arguments to stack
+	for(int i=1; i<args; ++i)
+	{
+		process.stack.push(atoi(argv[i]));
+	}
 
 	int i = 0;
 	while(!std::cin.eof())
