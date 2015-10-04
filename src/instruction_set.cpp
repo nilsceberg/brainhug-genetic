@@ -64,7 +64,6 @@ instruction_set instruction_sets::base()
 	set['c'] = [](bh::vm& vm) {
 			pointer to = vm.pop();
 			vm.push(vm.get_ip());
-			std::cerr << "jumping to " << to << std::endl;
 			vm.jump(to);
 		};
 	set['R'] = [](bh::vm& vm) {

@@ -1,13 +1,17 @@
 #include "vm.hpp"
 #include "context.hpp"
+#include "error.hpp"
 
 #include <iostream>
 
 using namespace bh;
 
 vm::vm()
-	: m_ip(0),
-	  m_context(nullptr)
+	: max_steps(vm::default_max_steps),
+	  silence_errors(false),
+	  m_ip(0),
+	  m_context(nullptr),
+	  m_halt(false)
 {
 }
 
@@ -36,12 +40,20 @@ pointer vm::get_ip()
 void vm::step()
 {
 	instruction instr = fetch();
-	std::cerr << "I:" << instr << std::endl;
+	//std::cerr << "I:" << instr << std::endl;
 
 	auto it = m_instruction_set.find(instr);
 	if(it != m_instruction_set.end())
 	{
-		it->second(*this);
+		try
+		{
+			it->second(*this);
+		}
+		catch(std::exception const& e)
+		{
+			if(!silence_errors)
+				throw;
+		}
 	}
 }
 
@@ -57,6 +69,9 @@ void vm::push(cell c)
 
 cell vm::pop()
 {
+	if(m_context->stack.empty())
+		throw stack_error();
+
 	cell c = m_context->stack.top();
 	m_context->stack.pop();
 	return c;
@@ -70,5 +85,23 @@ void vm::set_instruction_set(instruction_set const& set)
 instruction_set const& vm::get_instruction_set() const
 {
 	return m_instruction_set;
+}
+
+void vm::reset()
+{
+	m_ip = 0;
+	m_halt = false;
+}
+
+void vm::run()
+{
+	reset();
+	for(size_t i=0; i<max_steps && !m_halt; ++i)
+	{
+		if((unsigned pointer)m_ip >= m_context->program.size())
+			return;
+
+		step();
+	}
 }
 

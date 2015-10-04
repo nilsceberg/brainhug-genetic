@@ -3,9 +3,10 @@ env = Environment(CPPPATH=["."], CPPFLAGS="-Wall -Werror -std=c++14 -g", CFLAGS=
 
 # Source section
 sources = Split("""
-main.cpp
 vm.cpp
 instruction_set.cpp
+mutator.cpp
+optimizer.cpp
 """)
 
 
@@ -14,5 +15,9 @@ objects = env.Object(source = sources)
 
 
 # Target section
-binary = env.Program(target = "bin", source = objects)
+interpreter = env.Program(target = "brainhug",
+        source = objects + env.Object(source = "interpreter.cpp"))
+
+test = env.Program(target = "test",
+        source = objects + env.Object(source = "test.cpp"))
 
