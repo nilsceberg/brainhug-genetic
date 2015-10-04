@@ -14,6 +14,7 @@ int main(int args, char** argv)
 
 	auto instruction_set = bh::instruction_sets::base();
 	instruction_set.erase('a');
+	instruction_set.erase('P');
 	instruction_set[' '] = [](bh::vm&){}; // nop
 
 	bh::vm vm;
