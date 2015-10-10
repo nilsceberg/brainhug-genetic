@@ -11,7 +11,7 @@ vm::vm()
 	  silence_errors(false),
 	  m_ip(0),
 	  m_context(nullptr),
-	  m_halt(false)
+	  m_stop(false)
 {
 }
 
@@ -90,13 +90,13 @@ instruction_set const& vm::get_instruction_set() const
 void vm::reset()
 {
 	m_ip = 0;
-	m_halt = false;
+	m_stop = false;
 }
 
 void vm::run()
 {
 	reset();
-	for(size_t i=0; i<max_steps && !m_halt; ++i)
+	for(size_t i=0; i<max_steps && !m_stop; ++i)
 	{
 		if((unsigned pointer)m_ip >= m_context->program.size())
 			return;

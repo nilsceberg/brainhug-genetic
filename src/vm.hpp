@@ -39,7 +39,7 @@ namespace bh
 
 		pointer m_ip;
 		context* m_context;
-		bool m_halt;
+		bool m_stop;
 
 		instruction_set m_instruction_set;
 	};

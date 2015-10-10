@@ -24,12 +24,13 @@ int main(int args, char** argv)
 		bh::program()
 	};
 
-	bool halt = false;
+	bool stop = false;
 
 	bh::vm vm;
 
 	bh::instruction_set extension;
-	extension[0] = [&halt](bh::vm&) { halt = true; };
+	extension['z'] = [&stop](bh::vm&) { stop = true; };
+	extension[0] = [&stop](bh::vm&) { stop = true; };
 
 	vm.set_instruction_set(bh::instruction_sets::base() | extension);
 
@@ -52,9 +53,9 @@ int main(int args, char** argv)
 		//process.stack = bh::stack();
 		vm.jump(0);
 
-		halt = false;
+		stop = false;
 		i = 0;
-		while(!halt && i < 10000)
+		while(!stop && i < 10000)
 		{
 			vm.step();
 			std::cerr << "S:"; print_stack(process.stack); std::cerr << std::endl;
