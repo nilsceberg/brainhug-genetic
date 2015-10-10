@@ -28,12 +28,15 @@ program optimizer::optimize(program seed, int generations)
 	{
 		auto program = m_mutator(m_vm.get_instruction_set(), best_program);
 		float score = evaluate_program(program);
-		std::cout << std::string(program.begin(), program.end()) << ":" << score << std::endl;
+		//std::cout << std::string(program.begin(), program.end()) << ":" << score << std::endl;
 		if(score > best_score)
 		{
 			best_program = program;
 			best_score = score;
 		}
+
+		if(gen % 1000 == 0)
+			std::cout << "gen " << gen << ", best score: " << best_score << std::endl;
 	}
 
 	std::cout << "best score: " << best_score << std::endl;
