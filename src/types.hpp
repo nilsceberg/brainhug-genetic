@@ -7,7 +7,7 @@
 namespace bh
 {
 	class vm;
-	typedef int16_t cell;
+	typedef int64_t cell;
 	typedef std::stack<cell, std::vector<cell>> stack;
 	typedef char instruction;
 	typedef cell pointer;
